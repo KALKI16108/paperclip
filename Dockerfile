@@ -70,6 +70,10 @@ RUN npm install --global --omit=dev @anthropic-ai/claude-code@latest @openai/cod
 COPY scripts/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Configure OpenCode with OpenRouter as default free provider
+RUN opencode config set --global provider openrouter || true
+RUN opencode config set --global model meta-llama/llama-4-scout:free || true
+
 ENV NODE_ENV=production \
   HOME=/paperclip \
   HOST=0.0.0.0 \
@@ -83,7 +87,21 @@ ENV NODE_ENV=production \
   PAPERCLIP_DEPLOYMENT_MODE=authenticated \
   PAPERCLIP_DEPLOYMENT_EXPOSURE=private \
   OPENCODE_ALLOW_ALL_MODELS=true \
-  GEMINI_SANDBOX=false
+  GEMINI_SANDBOX=false \
+  ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} \
+  OPENAI_API_KEY=${OPENAI_API_KEY} \
+  GEMINI_API_KEY=${GEMINI_API_KEY} \
+  GOOGLE_API_KEY=${GEMINI_API_KEY} \
+  GOOGLE_GENERATIVE_AI_API_KEY=${GEMINI_API_KEY} \
+  GROQ_API_KEY=${GROQ_API_KEY} \
+  OPENROUTER_API_KEY=${OPENROUTER_API_KEY} \
+  MISTRAL_API_KEY=${MISTRAL_API_KEY} \
+  COHERE_API_KEY=${COHERE_API_KEY} \
+  DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY} \
+  CEREBRAS_API_KEY=${CEREBRAS_API_KEY} \
+  TOGETHER_API_KEY=${TOGETHER_API_KEY} \
+  HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY} \
+  NOVITA_API_KEY=${NOVITA_API_KEY}
 
 EXPOSE 3100
 
